@@ -1,0 +1,112 @@
+```{r}
+# Region analysis for N15
+region.anova.N15 <- aov(N15 ~ Region, data = all_nitrogen_data)
+
+summary(region.anova.N15)
+region.anova.per <- aov(Percent ~ Region, data = all_nitrogen_data)
+
+
+plot(region.anova.N15)
+plot(region.anova.per)
+
+summary(aov(N15 ~ Zone, data = all_nitrogen_data))
+summary(aov(Percent ~ Zone, data = all_nitrogen_data))
+
+# anovas looking at Region for each depth zone
+
+summary(aov(N15 ~ Region, data = shallow))
+summary(aov(N15 ~ Region, data = mesophotic))
+
+# looking at Zone * region interaction
+summary(aov(N15 ~ Zone * Region, data = all_nitrogen_data))
+TukeyHSD(aov(N15 ~ Zone * Region, data = all_nitrogen_data))
+summary(aov(Percent ~ Zone * Region, data = all_nitrogen_data))
+TukeyHSD(aov(Percent ~ Zone * Region, data = all_nitrogen_data))
+```
+
+
+```{r}
+#Anovas for Genus for subsets
+summary(aov(log.n15 ~ Genus, data = all_nitrogen_data))
+summary(aov(log.n15 ~ Genus, data = MainHI))
+summary(aov(N15 ~ Genus, data = NwestHI))
+summary(aov(log.n15 ~ Genus, data = shallow))
+
+#Did quick non parametric tests for other subsets, this stats wasn't super important. Just needed to verify genus was important before moving on to the next set of tests
+
+# Genus subset tests
+
+#N15
+kruskal.test(N15~as.factor(Genus), data = mesophotic)
+
+#%N
+kruskal.test(Percent~as.factor(Genus), data = all_nitrogen_data)
+kruskal.test(Percent~as.factor(Genus), data = MainHI)
+kruskal.test(Percent~as.factor(Genus), data = NwestHI)
+kruskal.test(Percent~as.factor(Genus), data = shallow)
+kruskal.test(Percent~as.factor(Genus), data = mesophotic)
+```
+
+```{r}
+# Best genera collected in both  mesophotic and shallow zones for NWHI
+
+
+summary(aov(N15 ~ Genus * Zone, data = best_NWHI))
+
+TukeyHSD(aov(N15 ~ Genus, best_NWHI))
+
+TukeyHSD(aov(N15 ~ Genus * Zone, data = best_NWHI))
+
+summary(aov(Percent ~ Genus * Zone, data = best_NWHI)) # don't use. Use randomization
+
+TukeyHSD(aov(N15 ~ Genus * Zone, data = best_NWHI))
+
+```
+
+```{r}
+#Best genera from both mesophotic and shallow zones for MHI N15 and Percent
+
+summary(aov(N15 ~ Genus * Zone, data = best_MHI_no_ud)) #Removed udotea because it didn't have shallow samples
+TukeyHSD(aov(N15 ~ Genus * Zone, data = best_MHI_no_ud))
+summary(aov(log.n15 ~ Genus * Zone, data = best_MHI_no_ud))
+TukeyHSD(aov(log.n15 ~ Genus * Zone, data = best_MHI_no_ud))
+
+
+summary(aov(Percent ~ Genus * Zone, data = best_MHI_no_ud)) # used randomization
+TukeyHSD(aov(Percent ~ Genus * Zone, data = best_MHI_no_ud))
+
+```
+
+```{r}
+#Anova's of  spatial distribution in shallow depths across the archipelago
+summary(aov(N15 ~  Location, data = shallow))
+TukeyHSD(aov(N15 ~  Location, data = shallow))
+#only NWHI that were different from one another were PH and Lisanski
+
+summary(aov(Percent ~  Location, data = shallow))
+TukeyHSD(aov(Percent ~  Location, data = shallow))
+#None of the NWHI differed in terms of percent
+```
+
+```{r}
+#Anova's of  spatial distribution in mesophotic depths across the archipelago
+summary(aov(log.n15 ~  Location, data = mesophotic))
+TukeyHSD(aov(log.n15 ~  Location, data = mesophotic))
+#most NWHI did not differ, a few exceptions and Kure differed more often than others
+summary(aov(Percent ~  Location, data = mesophotic)) # used randomization for this
+TukeyHSD(aov(Percent ~  Location, data = mesophotic))
+#most NWHI did not differ, a few exceptions and Kure differed more often than others
+```
+
+
+```{r}
+#Looking at locations with both depths
+summary(aov(log.n15 ~ Zone * Region, data = S_and_M_Locations)) #didn't use
+```
+
+```{r}
+# Looking at Pearl and Hermes sites
+summary(aov(Percent ~ Site, data = P_H)) # use randomization test value
+TukeyHSD(aov(Percent ~ Site, data = P_H))
+```
+

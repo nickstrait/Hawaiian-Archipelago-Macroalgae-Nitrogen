@@ -1,0 +1,309 @@
+```{r}
+# looking at %N between regions
+Per_region <- lm(Percent ~ Region, data = all_nitrogen_data)
+
+anova(Per_region)
+
+obs_F1 <- anova(Per_region)$'F value'[1]
+
+nperm = 10000
+null_F1 = obs_F1
+for (i in 2:nperm) {
+    reshuffled1 <- all_nitrogen_data
+    reshuffled1_Per <- subset(reshuffled1, select = -Percent)
+    reshuffled1_Per <- reshuffled1_Per[sample(nrow(reshuffled1_Per)), ]
+    reshuffled1 <- data.frame(reshuffled1_Per, Percent = reshuffled1$Percent)
+    # correlation between the shuffled spatial coordinates and sr_dist
+    null_F1[i] = anova(lm(Percent ~ Region, data = reshuffled1))$'F value'[1]
+}
+# compute the p-value
+sum(null_F1 >= obs_F1) / nperm 
+# visualize null model and sig test
+hist(null_F1)
+abline(v = obs_F1, col = 'red')
+
+```
+
+
+```{r}
+#looking at shallow %N between regions
+shlw_per_region <- lm(Percent ~ Region, data = shallow)
+
+anova(shlw_per_region)
+
+obs_F2 <- anova(shlw_per_region)$'F value'[1]
+
+nperm = 10000
+null_F2 = obs_F2
+for (i in 2:nperm) {
+    reshuffled2 <- shallow
+    reshuffled2_Per <- subset(reshuffled2, select = -Percent)
+    reshuffled2_Per <- reshuffled2_Per[sample(nrow(reshuffled2_Per)), ]
+    reshuffled2 <- data.frame(reshuffled2_Per, Percent = reshuffled2$Percent)
+    # correlation between the shuffled spatial coordinates and sr_dist
+    null_F2[i] = anova(lm(Percent ~ Region, data = reshuffled2))$'F value'[1]
+}
+# compute the p-value
+sum(null_F2 >= obs_F2) / nperm 
+# visualize null model and sig test
+hist(null_F2)
+abline(v = obs_F2, col = 'red')
+```
+
+```{r}
+#looking at mesophotic %N between regions
+meso_per_region <- lm(Percent ~ Region, data = mesophotic)
+
+summary(meso_per_region)
+
+obs_F3 <- anova(meso_per_region)$'F value'[1]
+
+nperm = 10000
+null_F3 = obs_F3
+for (i in 2:nperm) {
+    reshuffled3 <- mesophotic
+    reshuffled3_Per <- subset(reshuffled3, select = -Percent)
+    reshuffled3_Per <- reshuffled3_Per[sample(nrow(reshuffled3_Per)), ]
+    reshuffled3 <- data.frame(reshuffled3_Per, Percent = reshuffled3$Percent)
+    # correlation between the shuffled spatial coordinates and sr_dist
+    null_F3[i] = anova(lm(Percent ~ Region, data = reshuffled3))$'F value'[1]
+}
+# compute the p-value
+sum(null_F3 >= obs_F3) / nperm 
+# visualize null model and sig test
+hist(null_F3)
+abline(v = obs_F3, col = 'red')
+```
+
+```{r}
+#looking at N15 between regions and depth
+N15_reg_depth <- lm(N15 ~ Region*Zone, data = all_nitrogen_data)
+
+anova(N15_reg_depth)
+
+obs_F4 <- anova(N15_reg_depth)$'F value'[3]
+
+nperm = 10000
+null_F4 = obs_F4
+for (i in 2:nperm) {
+    reshuffled4 <- all_nitrogen_data
+    reshuffled4_N15 <- subset(reshuffled4, select = -N15)
+    reshuffled4_N15 <- reshuffled4_N15[sample(nrow(reshuffled4_N15)), ]
+    reshuffled4 <- data.frame(reshuffled4_N15, N15 = reshuffled4$N15)
+    # correlation between the shuffled spatial coordinates and sr_dist
+    null_F4[i] = anova(lm(N15~Region*Zone,data=reshuffled4))$'F value'[3]
+}
+# compute the p-value
+sum(null_F4 >= obs_F4) / nperm 
+# visualize null model and sig test
+hist(null_F4)
+abline(v = obs_F4, col = 'red')
+```
+
+```{r}
+#looking at %N between regions and depth
+Per_reg_depth <- lm(Percent ~ Region*Zone, data = all_nitrogen_data)
+
+anova(Per_reg_depth)
+
+obs_F5 <- anova(Per_reg_depth)$'F value'[3]
+
+nperm = 10000
+null_F5 = obs_F5
+for (i in 2:nperm) {
+    reshuffled5 <- all_nitrogen_data
+    reshuffled5_Per <- subset(reshuffled5, select = -Percent)
+    reshuffled5_Per <- reshuffled5_Per[sample(nrow(reshuffled5_Per)), ]
+    reshuffled5 <- data.frame(reshuffled5_Per, Percent = reshuffled5$Percent)
+    # correlation between the shuffled spatial coordinates and sr_dist
+    null_F5[i] = anova(lm(Percent~Region*Zone,data=reshuffled5))$'F value'[3]
+}
+# compute the p-value
+sum(null_F5 >= obs_F5) / nperm 
+# visualize null model and sig test
+hist(null_F5)
+abline(v = obs_F5, col = 'red')
+```
+
+```{r}
+#Looking at the best MHI genera and depth
+MHI_gen_N15_Depth <- lm(N15 ~ Genus*Zone, data = best_MHI_no_ud)
+
+anova(MHI_gen_N15_Depth)
+
+obs_F6 <- anova(MHI_gen_N15_Depth)$`F value`[2]
+
+nperm = 10000
+null_F6 = obs_F6
+for (i in 2:nperm) {
+    reshuffled6 <- best_MHI_no_ud
+    reshuffled6_N15 <- subset(reshuffled6, select = -N15)
+    reshuffled6_N15 <- reshuffled6_N15[sample(nrow(reshuffled6_N15)), ]
+    reshuffled6 <- data.frame(reshuffled6_N15, N15 = reshuffled6$N15)
+    # correlation between the shuffled spatial coordinates and sr_dist
+    null_F6[i] = anova(lm(N15 ~ Genus*Zone, data = reshuffled6))$'F value'[2]
+}
+
+# compute the p-value
+sum(null_F6 >= obs_F6) / nperm 
+# visualize null model and sig test
+hist(null_F6)
+abline(v = obs_F6, col = 'red')
+
+```
+
+```{r}
+#Looking at the best MHI genera and depth
+MHI_gen_per_depth <- lm(Percent ~ Genus*Zone, data = best_MHI_no_ud)
+
+anova(MHI_gen_per_depth)
+
+obs_F7 <- anova(MHI_gen_per_depth)$'F value'[2]
+
+nperm = 10000
+null_F7 = obs_F7
+for (i in 2:nperm) {
+    reshuffled7 <- best_MHI_no_ud
+    reshuffled7_Per <- subset(reshuffled7, select = -Percent)
+    reshuffled7_Per <- reshuffled7_Per[sample(nrow(reshuffled7_Per)), ]
+    reshuffled7 <- data.frame(reshuffled7_Per, Percent = reshuffled7$Percent)
+    # correlation between the shuffled spatial coordinates and sr_dist
+    null_F7[i] = anova(lm(Percent ~ Genus*Zone, data = reshuffled7))$'F value'[2]
+}
+# compute the p-value
+sum(null_F7 >= obs_F7) / nperm 
+# visualize null model and sig test
+hist(null_F7)
+abline(v = obs_F7, col = 'red')
+```
+
+```{r}
+# looking at the best MHI holdfasts
+MHI_gen_per_holdfast <- lm(Percent ~ Genus, data = best_MHI_meso)
+
+anova(MHI_gen_per_holdfast)
+
+obs_F8 <- anova(MHI_gen_per_holdfast)$'F value'[1]
+
+nperm = 10000
+null_F8 = obs_F8
+for (i in 2:nperm) {
+    reshuffled8 <- best_MHI_meso
+    reshuffled8_per <- subset(reshuffled8, select = -Percent)
+    reshuffled8_per <- reshuffled8_per[sample(nrow(reshuffled8_per)), ]
+    reshuffled8 <- data.frame(reshuffled8_per, Percent = reshuffled8$Percent)
+    # correlation between the shuffled spatial coordinates and sr_dist
+    null_F8[i] = anova(lm(Percent ~ Genus, data = reshuffled8))$'F value'[1]
+}
+
+# compute the p-value
+sum(null_F8 >= obs_F8) / nperm 
+# visualize null model and sig test
+hist(null_F8)
+abline(v = obs_F8, col = 'red')
+```
+
+```{r}
+# looking at the best MHI holdfasts
+MHI_gen_N15_holdfast <- lm(N15 ~ Genus, data = best_MHI_meso)
+
+anova(MHI_gen_N15_holdfast)
+
+obs_F9 <- anova(MHI_gen_N15_holdfast)$'F value'[1]
+
+nperm = 10000
+null_F9 = obs_F9
+for (i in 2:nperm) {
+    reshuffled9 <- best_MHI_meso
+    reshuffled9_N15 <- subset(reshuffled9, select = -N15)
+    reshuffled9_N15 <- reshuffled9_N15[sample(nrow(reshuffled9_N15)), ]
+    reshuffled9 <- data.frame(reshuffled9_N15, N15 = reshuffled9$N15)
+    # correlation between the shuffled spatial coordinates and sr_dist
+    null_F9[i] = anova(lm(N15 ~ Genus, data = reshuffled9))$'F value'[1]
+}
+
+# compute the p-value
+sum(null_F9 >= obs_F9) / nperm 
+# visualize null model and sig test
+hist(null_F9)
+abline(v = obs_F9, col = 'red')
+```
+
+```{r}
+# looking at the best NWHI genera and depth
+NWHI_gen_per_depth <- lm(Percent ~ Genus*Zone, data = best_NWHI)
+
+anova(NWHI_gen_per_depth)
+
+obs_F10 <- anova(NWHI_gen_per_depth)$'F value'[3]
+
+nperm = 10000
+null_F10 = obs_F10
+for (i in 2:nperm) {
+    reshuffled10 <- best_NWHI
+    reshuffled10_per <- subset(reshuffled10, select = -Percent)
+    reshuffled10_per <- reshuffled10_per[sample(nrow(reshuffled10_per)), ]
+    reshuffled10 <- data.frame(reshuffled10_per, Percent = reshuffled10$Percent)
+    # correlation between the shuffled spatial coordinates and sr_dist
+    null_F10[i] = anova(lm(Percent ~ Genus*Zone, data = reshuffled10))$'F value'[3]
+}
+
+# compute the p-value
+sum(null_F10 >= obs_F10) / nperm 
+# visualize null model and sig test
+hist(null_F10)
+abline(v = obs_F10, col = 'red')
+```
+
+```{r}
+# looking at the mesophotic samples and if they differed at the locations
+Meso_per_location <- lm(Percent ~ Location, data = mesophotic)
+
+anova(Meso_per_location)
+
+obs_F11 <- anova(Meso_per_location)$'F value'[1]
+
+nperm = 10000
+null_F11 = obs_F11
+for (i in 2:nperm) {
+    reshuffled11 <- mesophotic
+    reshuffled11_per <- subset(reshuffled11, select = -Percent)
+    reshuffled11_per <- reshuffled11_per[sample(nrow(reshuffled11_per)), ]
+    reshuffled11 <- data.frame(reshuffled11_per, Percent = reshuffled11$Percent)
+    # correlation between the shuffled spatial coordinates and sr_dist
+    null_F11[i] = anova(lm(Percent ~ Location, data = reshuffled11))$'F value'[1]
+}
+
+# compute the p-value
+sum(null_F11 >= obs_F11) / nperm 
+# visualize null model and sig test
+hist(null_F11)
+abline(v = obs_F11, col = 'red')
+```
+
+```{r} 
+# looking at the sites around Pearl and Hermes
+PH_Site <- lm(Percent ~ Site, data = P_H)
+
+anova(PH_Site)
+
+obs_F12 <- anova(PH_Site)$'F value'[1]
+
+nperm = 10000
+null_F12 = obs_F12
+for (i in 2:nperm) {
+    reshuffled12 <- P_H
+    reshuffled12_per <- subset(reshuffled12, select = -Percent)
+    reshuffled12_per <- reshuffled12_per[sample(nrow(reshuffled12_per)), ]
+    reshuffled12 <- data.frame(reshuffled12_per, Percent = reshuffled12$Percent)
+    # correlation between the shuffled spatial coordinates and sr_dist
+    null_F12[i] = anova(lm(Percent ~ Site, data = reshuffled12))$'F value'[1]
+}
+
+# compute the p-value
+sum(null_F12 >= obs_F12) / nperm 
+# visualize null model and sig test
+hist(null_F12)
+abline(v = obs_F12, col = 'red')
+```
+

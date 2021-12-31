@@ -1,0 +1,272 @@
+```{r}
+library(car)
+```
+
+
+```{r}
+#N15 for regions test- use regular data and parametric tests
+
+hist(all_nitrogen_data$N15, breaks = 20)
+hist(all_nitrogen_data$sqrt.n15, breaks = 20)
+hist(all_nitrogen_data$log.n15, breaks = 20)
+
+qqnorm(all_nitrogen_data$N15)
+qqline(all_nitrogen_data$N15)
+qqnorm(all_nitrogen_data$sqrt.n15)
+qqline(all_nitrogen_data$sqrt.n15)
+qqnorm(all_nitrogen_data$log.n15)
+qqline(all_nitrogen_data$log.n15)
+
+leveneTest(N15 ~ Region, all_nitrogen_data)
+leveneTest(log.n15 ~ Region, all_nitrogen_data)
+leveneTest(sqrt.n15 ~ Region, all_nitrogen_data)
+```
+
+```{r}
+#%N for regions test- variance could not be corrected, use nonparametric
+
+hist(all_nitrogen_data$Percent, breaks = 20)
+hist(all_nitrogen_data$sqrt.per, breaks = 20)
+hist(all_nitrogen_data$log.per, breaks = 20)
+
+qqnorm(all_nitrogen_data$Percent)
+qqline(all_nitrogen_data$Percent)
+qqnorm(all_nitrogen_data$sqrt.per)
+qqline(all_nitrogen_data$sqrt.per)
+qqnorm(all_nitrogen_data$log.per)
+qqline(all_nitrogen_data$log.per)
+
+leveneTest(Percent ~ Region, all_nitrogen_data)
+leveneTest(log.per ~ Region, all_nitrogen_data)
+leveneTest(sqrt.per ~ Region, all_nitrogen_data)
+```
+
+```{r}
+# Looking at Zone for each region
+
+#n15 for shallow
+hist(shallow$N15, breaks = 20)
+
+qqnorm(shallow$N15)
+qqline(shallow$N15)
+
+leveneTest(N15 ~ Region, shallow) # regular data ok
+
+
+#n15 for mesophotic
+hist(mesophotic$N15, breaks = 20)
+
+qqnorm(mesophotic$N15)
+qqline(mesophotic$N15)
+
+leveneTest(N15 ~ Region, mesophotic) # regular data ok
+
+
+#%N for shallow
+hist(shallow$Percent, breaks = 20)
+hist(shallow$sqrt.per, breaks = 20)
+hist(shallow$log.per, breaks = 20)
+
+qqnorm(shallow$Percent)
+qqline(shallow$Percent)
+qqnorm(shallow$sqrt.per)
+qqline(shallow$sqrt.per)
+qqnorm(shallow$log.per)
+qqline(shallow$log.per)
+
+leveneTest(Percent ~ Region, shallow)
+leveneTest(log.per ~ Region, shallow) # none are ok, use randomization test
+leveneTest(sqrt.per ~ Region, shallow)
+
+# %N for mesophotic
+
+hist(mesophotic$Percent, breaks = 20)
+hist(mesophotic$sqrt.per, breaks = 20)
+hist(mesophotic$log.per, breaks = 20)
+
+qqnorm(mesophotic$Percent)
+qqline(mesophotic$Percent)
+qqnorm(mesophotic$sqrt.per)
+qqline(mesophotic$sqrt.per)
+qqnorm(mesophotic$log.per)
+qqline(mesophotic$log.per)
+
+leveneTest(Percent ~ Region, mesophotic)
+leveneTest(log.per ~ Region, mesophotic) # none are ok, use randomization test
+leveneTest(sqrt.per ~ Region, mesophotic)
+```
+
+```{r}
+#N15 for regions and zone- distribution is normal with regular data
+
+hist(all_nitrogen_data$N15, breaks = 20)
+hist(all_nitrogen_data$sqrt.n15, breaks = 50)
+hist(all_nitrogen_data$log.n15, breaks = 50)
+
+qqnorm(all_nitrogen_data$N15)
+qqline(all_nitrogen_data$N15)
+qqnorm(all_nitrogen_data$sqrt.n15)
+qqline(all_nitrogen_data$sqrt.n15)
+qqnorm(all_nitrogen_data$log.n15)
+qqline(all_nitrogen_data$log.n15)
+
+leveneTest(N15 ~ Region*Zone, all_nitrogen_data)
+leveneTest(log.n15 ~ Region*Zone, all_nitrogen_data)
+leveneTest(sqrt.n15 ~ Region*Zone, all_nitrogen_data)
+```
+
+```{r}
+#%N for regions and zone
+hist(all_nitrogen_data$Percent, breaks = 20)
+hist(all_nitrogen_data$sqrt.per, breaks = 20)
+hist(all_nitrogen_data$log.per, breaks = 20)
+
+qqnorm(all_nitrogen_data$Percent)
+qqline(all_nitrogen_data$Percent)
+qqnorm(all_nitrogen_data$sqrt.per)
+qqline(all_nitrogen_data$sqrt.per)
+qqnorm(all_nitrogen_data$log.per)
+qqline(all_nitrogen_data$log.per)
+
+leveneTest(Percent ~ Region*Zone, all_nitrogen_data) # use randomization
+leveneTest(log.per ~ Region*Zone, all_nitrogen_data)
+leveneTest(sqrt.per ~ Region*Zone, all_nitrogen_data)
+```
+
+```{r}
+#Genus subsets both N15 and %N
+
+#%N
+hist(all_nitrogen_data$Percent, breaks = 20)
+hist(shallow$Percent, breaks = 20)
+
+leveneTest(Percent ~ Genus, all_nitrogen_data) #Use non-parametric
+leveneTest(Percent ~ Genus, shallow) #use non-parametric
+leveneTest(Percent ~ Genus, MainHI) # use non- par
+leveneTest(Percent ~ Genus, NwestHI) # use non- par
+leveneTest(Percent ~ Genus, mesophotic) # use non- par
+
+#N15
+hist(all_nitrogen_data$N15, breaks = 20)
+hist(all_nitrogen_data$sqrt.n15, breaks = 50)
+hist(all_nitrogen_data$log.n15, breaks = 50)
+
+leveneTest(log.n15 ~ Genus, all_nitrogen_data) # use log parametric
+leveneTest(N15 ~ Genus, all_nitrogen_data) 
+
+hist(MainHI$N15, breaks = 20)
+hist(MainHI$sqrt.n15, breaks = 50)
+hist(MainHI$log.n15, breaks = 50)
+
+leveneTest(log.n15 ~ Genus, MainHI) 
+leveneTest(N15 ~ Genus, MainHI) # use log parametric
+
+hist(NwestHI$N15, breaks = 20)
+qqnorm(NwestHI$N15)
+qqline(NwestHI$N15)
+leveneTest(N15 ~ Genus, NwestHI) # use normal data for parametric
+
+hist(shallow$log.n15, breaks = 20)
+qqnorm(shallow$log.n15)
+qqline(shallow$log.n15)
+
+leveneTest(N15 ~ Genus, shallow) # use log data for parametric
+leveneTest(log.n15 ~ Genus, shallow) 
+leveneTest(sqrt.n15 ~ Genus, shallow) 
+
+
+
+leveneTest(N15 ~ Genus, mesophotic) # use non-para
+leveneTest(log.n15 ~ Genus, mesophotic) 
+leveneTest(sqrt.n15 ~ Genus, mesophotic) 
+
+```
+
+```{r}
+#N15 Genus * Zones
+
+#MHI
+hist(best_MHI_no_ud$N15, breaks = 10)
+hist(best_MHI_no_ud$log.n15, breaks = 10)   # use randomization
+hist(best_MHI_no_ud$sqrt.n15,breaks = 10)
+leveneTest(N15 ~ Genus*Zone, data = best_MHI_no_ud)
+leveneTest(log.n15 ~ Genus*Zone, data = best_MHI_no_ud)
+leveneTest(sqrt.n15 ~ Genus*Zone, data = best_MHI_no_ud)
+
+hist(best_MHI_meso$N15, breaks = 10)
+hist(best_MHI_meso$log.n15, breaks = 10)
+hist(best_MHI_meso$sqrt.n15,breaks = 10)   # use randomization
+leveneTest(N15 ~ Genus, data = best_MHI_meso)
+leveneTest(log.n15 ~ Genus*Zone, data = best_MHI_meso)
+leveneTest(sqrt.n15 ~ Genus*Zone, data = best_MHI_meso)
+
+#NWHI
+hist(best_NWHI$N15, breaks = 10)
+qqnorm(best_NWHI$N15)
+qqline(best_NWHI$N15)
+leveneTest(N15 ~ Genus*Zone, best_NWHI) # use parametric
+
+```
+
+```{r}
+#%N Genus * Zones
+
+#MHI
+hist(best_MHI_no_ud$Percent, breaks = 10)
+leveneTest(Percent ~ Genus*Zone, data = best_MHI_no_ud)   # use randomization
+leveneTest(sqrt.per ~ Genus*Zone, data = best_MHI_no_ud)
+
+
+#NWHI
+hist(best_NWHI$Percent, breaks = 10)
+qqnorm(best_NWHI$Percent)
+qqline(best_NWHI$Percent)
+leveneTest(Percent ~ Genus*Zone, best_NWHI) #use randomization, not normally distributed
+leveneTest(log.per ~ Genus*Zone, best_NWHI)
+leveneTest(sqrt.per ~ Genus*Zone, best_NWHI)
+```
+
+```{r}
+#spatial distribution in shallow depths across the archipelago
+library(car)
+leveneTest(N15 ~ Location, shallow) # use parametric
+hist(shallow$N15, breaks = 10)
+
+leveneTest(Percent ~ Location, shallow) # use parametric
+hist(shallow$Percent, breaks = 10)
+qqnorm(shallow$Percent)
+qqline(shallow$Percent)
+```
+
+```{r}
+#spatial distribution in mesophotic depths across the archipelago
+leveneTest(log.n15 ~ Location, mesophotic) #use log
+hist(mesophotic$log.n15, breaks = 10)
+
+leveneTest(Percent ~ Location, mesophotic) # use randomization
+hist(mesophotic$Percent, breaks = 10)
+qqnorm(shallow$Percent)
+qqline(shallow$Percent)
+```
+
+```{r}
+#Test for locations with both Shallow and Mesophotic- didn't use
+hist(S_and_M_Locations$log.n15, breaks = 10)
+
+leveneTest(log.n15 ~ Region * Zone, data = S_and_M_Locations)
+
+hist(S_and_M_Locations$Percent, breaks = 10)
+
+leveneTest(Percent ~ Region * Zone, data = S_and_M_Locations)
+```
+
+
+```{r}
+#PH data- is all good, use parametric
+library(car)
+leveneTest(Percent ~ Site, data = P_H)
+hist(P_H$Percent, breaks = 20)
+plot(density(P_H$Percent))
+qqnorm(P_H$Percent)
+qqline(P_H$Percent)
+```

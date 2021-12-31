@@ -1,0 +1,78 @@
+```{r}
+library(ggplot2)
+
+library(extrafont)
+font_import()
+fonts()
+loadfonts(device = "win")
+
+# Region Violin Plots
+
+ggplot(all_nitrogen_data, aes(x=Region, y=N15, fill=Region)) + geom_violin() + 
+scale_fill_manual(values = c("White", 'Black')) + 
+labs(y= expression(paste(delta^{15}, 'N(‰)'), x = 'Region')) +
+theme(axis.title = element_text(size = 15, colour = 'black')) + 
+theme(axis.text = element_text(size = 14, colour = 'black')) + 
+theme(legend.title =  element_text(size = 12)) + 
+theme(legend.text = element_text(size = 10))+
+theme(text = element_text(family = "Times New Roman"))+
+theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))+
+theme(axis.line = element_line(colour = 'black', size = 1))+
+theme(axis.ticks = element_line(colour = "black", size = 1))+
+theme(axis.ticks.length=unit(.15, "cm")) +
+theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())
+ggsave("N15 ~ Region.tiff",height = 3, width = 4.5, units = 'in', dpi=1200)
+
+ggplot(all_nitrogen_data, aes(x=Region, y=Percent, fill=Region)) + geom_violin()+ scale_fill_manual(values = c("White", 'Black')) + labs(y= '%N', x = 'Region') +
+theme(axis.title = element_text(size = 15)) + 
+theme(axis.text = element_text(size = 14, colour = 'black')) + 
+theme(legend.title =  element_text(size = 12)) + 
+theme(legend.text = element_text(size = 10))+
+theme(text = element_text(family = "Times New Roman"))+
+theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))+
+theme(axis.line = element_line(colour = 'black', size = 1))+
+theme(axis.ticks = element_line(colour = "black", size = 1))+
+theme(axis.ticks.length=unit(.15, "cm")) +
+theme(axis.text.x=element_blank(), axis.ticks.x=element_blank())+
+scale_y_continuous(limits = c(0,6))
+ggsave("Percent ~ Region.tiff",height = 3, width = 4.5, units = 'in', dpi=1200)
+
+```
+
+```{r}
+# Region split up by zone violin plots
+
+ggplot(Violin_plots, aes(x=Region, y=N15, fill=Zone)) + 
+geom_violin() +
+scale_fill_manual(values = c("white",'black'), labels = c('Shallow', 'Mesophotic')) + 
+labs(y= expression(paste(delta^{15}, 'N(‰)'), x = 'Region'), fill = 'Depth') +
+theme(axis.title = element_text(size = 15)) + 
+theme(axis.text = element_text(size = 14, colour = 'black')) + 
+theme(legend.title =  element_text(size = 12)) + 
+theme(legend.text = element_text(size = 10))+
+theme(text = element_text(family = "Times New Roman"))+
+theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))+
+theme(axis.line = element_line(colour = 'black', size = 1))+
+theme(axis.ticks = element_line(colour = "black", size = 1))+
+theme(axis.ticks.length=unit(.15, "cm"))
+ggsave("N15 ~ Region-Zone.tiff",height = 3, width = 4.6, units = 'in', dpi=1200)
+
+ggplot(Violin_plots, aes(x=Region, y=Percent, fill=Zone)) + geom_violin() +
+scale_fill_manual(values = c("white",'black'), labels = c('Shallow', 'Mesophotic')) +
+labs(y= '%N', x = 'Region', fill = 'Depth') +
+theme(axis.title = element_text(size = 15)) + 
+theme(axis.text = element_text(size = 14, colour = 'black')) + 
+theme(legend.title =  element_text(size = 12)) + 
+theme(legend.text = element_text(size = 10))+
+theme(text = element_text(family = "Times New Roman"))+
+theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))+
+theme(axis.line = element_line(colour = 'black', size = 1))+
+theme(axis.ticks = element_line(colour = "black", size = 1))+
+theme(axis.ticks.length=unit(.15, "cm"))+
+scale_y_continuous(limits = c(0,6))
+ggsave("Percent ~ Region-Zone.tiff",height = 3, width = 4.6, units = 'in', dpi=1200)
+```

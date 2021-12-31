@@ -1,0 +1,23 @@
+
+```{r}
+library(ggplot2)
+library(extrafont)
+font_import()
+fonts()
+loadfonts(device = "win")
+
+ggplot(P_H_Box, aes(x=Site, y=Percent, fill=Zone)) +
+  geom_boxplot()+
+scale_fill_manual(values = c("white",'black'), labels = c('Shallow', 'Mesophotic')) +
+labs(y='%N' , x = 'Site', fill = "Depth") +
+theme(axis.title = element_text(size = 20)) + 
+theme(axis.text = element_text(size = 18, colour = 'black')) + 
+theme(legend.title =  element_text(size = 18)) + 
+theme(legend.text = element_text(size = 16))+
+theme(text = element_text(family = "Times New Roman"))+
+theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))+
+theme(legend.position="top")
+ggsave("Boxplot PH.tiff", height = 140, width = 200, units = 'mm', dpi=1200)
+```
+

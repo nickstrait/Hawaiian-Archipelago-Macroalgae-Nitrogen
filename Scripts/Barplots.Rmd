@@ -1,0 +1,82 @@
+```{r}
+library(ggplot2)
+
+library(extrafont)
+font_import()
+fonts()
+loadfonts(device = "win")
+
+#MHI best genera distribution over depth
+
+ggplot(best_avg_MHI, aes(x=Genus, y=average_N15, fill=Zone)) + geom_bar(colour = 'Black', stat="identity", position=position_dodge()) + geom_errorbar(aes(ymin=average_N15-SE_N15, ymax=average_N15+SE_N15), width=.3, size = 1, position=position_dodge(.9), color = "grey44")+
+scale_fill_manual(values = c("white",'black'), labels = c('Shallow', 'Mesophotic')) + 
+labs(y= expression(paste(delta^{15}, 'N(‰)'), x = "Taxon"), fill = "Depth")+ theme(axis.text.x = element_text(face = "italic")) +
+scale_y_continuous(limits = c(0,4)) + 
+theme(axis.title = element_text(size = 15)) + 
+theme(axis.text = element_text(size = 14, colour = 'black')) + 
+theme(legend.title =  element_text(size = 12)) + 
+theme(legend.text = element_text(size = 10))+
+theme(text = element_text(family = "Times New Roman"))+
+theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))+
+theme(axis.line = element_line(colour = 'black', size = 1))+
+theme(axis.ticks = element_line(colour = "black", size = 1))+
+theme(axis.ticks.length=unit(.15, "cm"))
+ggsave("N15 ~ Avg. Genus-MHI.tiff", height = 3, width = 4.6, units = 'in', dpi=1200)
+
+ggplot(best_avg_MHI, aes(x=Genus, y=average_per, fill=Zone)) + geom_bar(colour = 'Black', stat="identity", position=position_dodge()) +
+geom_errorbar(aes(ymin=average_per-SE_per, ymax=average_per+SE_per), width=.3, size = 1, position=position_dodge(.9), color = "grey44")+ 
+scale_fill_manual(values = c("white",'black'), labels = c('Shallow', 'Mesophotic')) + 
+labs(y= expression(paste('%N'), x = 'Taxon'), fill = "Depth") + 
+scale_y_continuous(limits = c(0,5)) +
+theme(axis.text.x = element_text(face = "italic")) +
+theme(axis.title = element_text(size = 15, colour = 'black')) + 
+theme(axis.text = element_text(size = 14, colour = 'black')) + 
+theme(legend.title =  element_text(size = 12)) + 
+theme(legend.text = element_text(size = 10))+
+theme(text = element_text(family = "Times New Roman"))+
+theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))+
+theme(axis.line = element_line(colour = 'black', size = 1))+
+theme(axis.ticks = element_line(colour = "black", size = 1))+
+theme(axis.ticks.length=unit(.15, "cm"))
+ggsave("Percent ~ Avg. Genus-MHI.tiff",height = 3, width = 4.6, units = 'in', dpi=1200)
+```
+
+```{r}
+# NWHI best genera distribution over depth
+
+ggplot(best_avg_NWHI, aes(x=Genus, y=average_N15, fill=Zone)) + geom_bar(colour= 'Black', stat="identity", position=position_dodge()) + geom_errorbar(aes(ymin=average_N15-SE_N15, ymax=average_N15+SE_N15), width=.3, size = 1, position=position_dodge(.9), color = "grey44")+
+scale_fill_manual(values = c("white",'black'), labels = c('Shallow', 'Mesophotic')) + 
+labs(y= expression(paste(delta^{15}, 'N(‰)'), x = 'Genus'), fill = "Depth")+ theme(axis.text.x = element_text(face = "italic")) +
+scale_y_continuous(limits = c(0,5)) +
+theme(axis.title = element_text(size = 15, colour = 'black')) + 
+theme(axis.text = element_text(size = 14, color = 'black')) + 
+theme(legend.title =  element_text(size = 12)) + 
+theme(legend.text = element_text(size = 10))+
+theme(text = element_text(family = "Times New Roman"))+
+theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))+
+theme(axis.line = element_line(colour = 'black', size = 1))+
+theme(axis.ticks = element_line(colour = "black", size = 1))+
+theme(axis.ticks.length=unit(.15, "cm"))
+ggsave("N15 ~ Avg. Genus-NWHI.tiff",height = 3, width = 4.6, units = 'in', dpi=1200)
+
+ggplot(best_avg_NWHI, aes(x=Genus, y=average_per, fill=Zone)) + geom_bar(colour = 'Black', stat="identity", position=position_dodge()) +
+geom_errorbar(aes(ymin=average_per-SE_per, ymax=average_per+SE_per), width=.3, size = 1, position=position_dodge(.9), color = "grey44")+ 
+scale_fill_manual(values = c("white",'black'), labels = c('Shallow', 'Mesophotic')) + 
+labs(y= expression(paste('%N'), x = 'Genus'), fill = 'Depth') + 
+scale_y_continuous(limits = c(0,3)) +
+theme(axis.text.x = element_text(face = "italic"))+
+theme(axis.title = element_text(size = 15, colour = 'black')) + 
+theme(axis.text = element_text(size = 14, colour = 'black')) + 
+theme(legend.title =  element_text(size = 12)) + 
+theme(legend.text = element_text(size = 10))+
+theme(text = element_text(family = "Times New Roman"))+
+theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+panel.grid.minor = element_blank(), panel.background = element_blank(), axis.line = element_line(colour = "black"))+
+theme(axis.line = element_line(colour = 'black', size = 1))+
+theme(axis.ticks = element_line(colour = "black", size = 1))+
+theme(axis.ticks.length=unit(.15, "cm"))
+ggsave("Percent ~ Avg. Genus-NWHI.tiff",height = 3, width = 4.6, units = 'in', dpi=1200)
+```
